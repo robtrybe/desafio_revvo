@@ -10,7 +10,12 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "coffeecode/router": "2.0.*",
+        "league/plates": "3.*",
+        "intervention/image": "^3.1",
+        "respect/validation": "^2.2"
+    },
     "autoload": {
         "psr-4": {
             "Source\\": "source/"
