@@ -1,0 +1,35 @@
+version: '3'
+services:
+  php-apache-environment:
+    container_name: php-apache-revvo
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes: 
+      - ./php/app:/var/www/html
+      - ./php/apache2.conf:/etc/apache2/apache2.conf
+    stdin_open: true
+    tty: true
+    ports:
+      - 8000:80
+    environment:
+      - MYSQLHOST=db
+    restart: always
+    networks:
+      - mynetwork
+  db:
+    container_name: mysql-database-revvo
+    image: mysql
+    stdin_open: true
+    tty: true
+    ports:
+      - 3306:3306
+    volumes:
+      - ./database/database.sql:/docker-entrypoint-initdb.d/database.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    networks:
+      - mynetwork
+networks:
+  mynetwork:
+    driver: bridge

@@ -1,0 +1,19 @@
+{
+    "name": "rob-dev/app",
+    "description": "Desafio Revvo",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Robson Narcizo",
+            "email": "rob.narcizo.27@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Source\\": "source/"
+        }
+    }
+}
