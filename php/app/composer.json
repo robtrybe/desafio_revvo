@@ -20,6 +20,6 @@
         "psr-4": {
             "Source\\": "source/"
         },
-        "files": ["source/Core/Config.php"]
+        "files": ["source/Core/Config.php", "source/Support/Helpers.php"]
     }
 }

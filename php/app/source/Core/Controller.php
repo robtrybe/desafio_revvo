@@ -1,6 +1,7 @@
 <?php
 
 namespace Source\Core;
+
 use Source\Core\View;
 use Source\Support\Message;
 
