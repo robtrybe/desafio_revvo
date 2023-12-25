@@ -7,6 +7,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Source\Exceptions\DefaultException;
 use Source\Services\CourseService;
+use Respect\Validation\Validator as v;
 
 class CourseController extends Controller {
     private $imageManager;
@@ -17,11 +18,12 @@ class CourseController extends Controller {
     }
     
     public function index(?array $data) {
-        $data = (object) $data;
-
-        if(!empty($data->csrf)) { 
+        if(!empty($data['csrf'])) {
             try{
                 CourseService::create($data);
+                $this->message->success('Curso cadastrado com sucesso!')->flash();
+                redirect('/course');
+                return;
             }catch(DefaultException $e) {
                 $message = $this->message->setType($e->getType())->setMessage($e->getMessage())->render();
                 echo json_encode(['message' => $message]);

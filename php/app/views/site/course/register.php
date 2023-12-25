@@ -1,11 +1,13 @@
 <?php $this->layout('site/base', ['title' => $title]); ?>
 
 
-
 <form action="" action="<?= url('/course'); ?>" method="post" class="form-course">
+    <div><?= session()->flash() ?? ''; ?></div>
     <?= csrf_input(); ?>
     <input type="file" name="slide-image" >
     <input type="file" name="cover-image" >
+    <input type="text" name="name" >
+    <textarea name="description" cols="30" rows="10"></textarea>
     <button type="submit">Enviar</button>
 </form>
 

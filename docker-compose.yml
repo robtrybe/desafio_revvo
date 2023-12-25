@@ -13,8 +13,15 @@ services:
     ports:
       - 8000:80
     environment:
-      - MYSQLHOST=db
+      - MYSQL_DRIVER=mysql
+      - MYSQL_HOST=db
+      - MYSQL_DBNAME=desafio_revvo
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
     restart: always
+    depends_on:
+      - db
     networks:
       - mynetwork
   db:

@@ -6,19 +6,41 @@ use Exception;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Source\Exceptions\DefaultException;
+use Source\Models\Course;
 
 class CourseService {
-    private $imageManager;
 
-    public static function create(object $data) {
+    public static function create(array $data) {
+        $courseModel = new Course();
+
+        try{
+            $data = (object) $courseModel->validate($data);
+            if($courseModel->find("slug = :slug", "slug={$data->slug}")->fetch()) {
+                throw new DefaultException('Já existe um curso cadastrado com esse nome', 409);
+            }
+
+            $courseModel->name = $data->name;
+            $courseModel->slug = $data->slug;
+        }catch(DefaultException $e) { 
+            throw $e;
+        }catch(Exception $e) {
+            throw new DefaultException('Não foi possível cadastrar curso', 400);
+        }
+
         $slideImageInfo = self::checkImageSlide();
         $coverImageInfo = self::checkImageCover();
 
         $slideImageName = substr($slideImageInfo['name'], 0, strrpos( $slideImageInfo['name'], '.')).'-slide';
         $coverImageName = substr($coverImageInfo['name'], 0, strrpos( $coverImageInfo['name'], '.')).'-cover';
-        self::createSlideImages($slideImageInfo['tmp_name'], $slideImageName);
-        self::createCoverImages($coverImageInfo['tmp_name'], $coverImageName);
-        return;
+        $slideImagePath = self::createSlideImages($slideImageInfo['tmp_name'], $slideImageName);
+        $coverImagePath = self::createCoverImages($coverImageInfo['tmp_name'], $coverImageName);
+
+        $courseModel->slide_image = $slideImagePath;
+        $courseModel->cover_image = $coverImagePath;
+        $courseModel->description = $data->description;
+        $courseModel->save();
+    
+        return true;
     }
 
     private static function createSlideImages(string $imagePath, string $imageName, $outType = 'webp'): string {
@@ -36,6 +58,28 @@ class CourseService {
         }
 
         return CONF_IMG_FOLDER.'/'.$imageName.'.'.$outType;
+    }
+
+    private static function checkSlideImageSize(string $imagePath) {
+        $imageInfo = getimagesize($imagePath);
+        if($imageInfo[0] != CONF_IMG_SLIDE_DEF_WIDTH || $imageInfo[1] != CONF_IMG_SLIDE_DEF_HEIGHT){
+            $message = 'O tamanho da resolução da imagem de slide deve ser de '.CONF_IMG_SLIDE_DEF_WIDTH.' x ';
+            $message .= CONF_IMG_SLIDE_DEF_HEIGHT;
+            throw new DefaultException($message, 400);
+        }
+
+        return true;
+    }
+
+    private static function checkCoverImageSize(string $imagePath) {
+        $imageInfo = getimagesize($imagePath);
+        if($imageInfo[0] != CONF_IMG_COVER_DEF_WIDTH || $imageInfo[1] != CONF_IMG_COVER_DEF_HEIGHT){
+            $message = 'O tamanho da resolução da imagem de capa deve ser de '.CONF_IMG_COVER_DEF_WIDTH.' x ';
+            $message .= CONF_IMG_COVER_DEF_HEIGHT;
+            throw new DefaultException($message, 400);
+        }
+
+        return true;
     }
 
     private static function createCoverImages(string $imagePath, string $imageName, $outType = 'webp'): string {
@@ -64,6 +108,8 @@ class CourseService {
             throw new DefaultException('A Imagem de slide é obrigatória', 400);
         }
         
+        self::checkSlideImageSize($_FILES['slide-image']['tmp_name']);
+
         $slideImageFile = $_FILES['slide-image'];
         $isValidSlideType = in_array($slideImageFile['type'], CONF_IMG_ALLOW_TYPES);
 
@@ -82,6 +128,8 @@ class CourseService {
         if(!$_FILES || empty($_FILES['cover-image'])){
             throw new DefaultException('A Imagem de capa é obrigatória', 400);
         }
+
+        self::checkCoverImageSize($_FILES['cover-image']['tmp_name']);
 
         $coverImageFile = $_FILES['cover-image'];
         $isValidCoverType = in_array($coverImageFile['type'], CONF_IMG_ALLOW_TYPES);
