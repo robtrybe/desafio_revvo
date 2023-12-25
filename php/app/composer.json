@@ -14,7 +14,8 @@
         "coffeecode/router": "2.0.*",
         "league/plates": "3.*",
         "intervention/image": "^3.1",
-        "respect/validation": "^2.2"
+        "respect/validation": "^2.2",
+        "coffeecode/datalayer": "^2.0"
     },
     "autoload": {
         "psr-4": {
