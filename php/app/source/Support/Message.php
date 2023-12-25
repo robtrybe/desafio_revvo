@@ -52,4 +52,14 @@ class Message {
     public function flash(): void {
         (new Session())->set('flash', $this);
     }
+
+    public function setType(string $type): Message {
+        $this->type = filter_var($type, FILTER_SANITIZE_SPECIAL_CHARS);
+        return $this;
+    }
+
+    public function setMessage(string $message): Message {
+        $this->message = filter_var($message, FILTER_SANITIZE_SPECIAL_CHARS);
+        return $this;
+    }
 }

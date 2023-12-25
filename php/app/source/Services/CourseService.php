@@ -10,7 +10,7 @@ use Source\Exceptions\DefaultException;
 class CourseService {
     private $imageManager;
 
-    public static function create(array $data) {
+    public static function create(object $data) {
         $slideImageInfo = self::checkImageSlide();
         $coverImageInfo = self::checkImageCover();
 
