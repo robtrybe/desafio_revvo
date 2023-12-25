@@ -13,7 +13,7 @@ class DefaultException extends Exception {
         $this->type = $type;
     }
 
-    public function getType(string $type) {
+    public function getType() {
         return $this->type;
     }
 } 

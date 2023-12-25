@@ -5,6 +5,8 @@ namespace Source\Controllers;
 use Source\Core\Controller;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Source\Exceptions\DefaultException;
+use Source\Services\CourseService;
 
 class CourseController extends Controller {
     private $imageManager;
@@ -16,29 +18,16 @@ class CourseController extends Controller {
     
     public function index(?array $data) {
         $data = (object) $data;
-        if(!empty($data->csrf)){
-            if(!$_FILES || empty($_FILES['cover-image']) || empty($_FILES['slide-image'])){
-                echo json_encode(['message' => 'As imagens de capa e slide são obrigatórias']);
+
+        if(!empty($data->csrf)) { 
+            try{
+                CourseService::create($data);
+            }catch(DefaultException $e) {
+                $message = $this->message->setType($e->getType())->setMessage($e->getMessage())->render();
+                echo json_encode(['message' => $message]);
                 return;
             }
-            
-            $coverImageFile = $_FILES['cover-image'];
-            $slideImageFile = $_FILES['slide-image'];
-            
-
-            $isValidCoverType = in_array($coverImageFile['type'], CONF_IMG_ALLOW_TYPES);
-            $isValidSlideType = in_array($slideImageFile['type'], CONF_IMG_ALLOW_TYPES);
-
-            if(!$isValidCoverType || !$isValidSlideType) {
-                echo json_encode(['message' => 'Imagem de capa ou slide inválida']);
-                return;
-            }
-            
-            $slideImageName = substr($slideImageFile['name'], 0, strrpos( $slideImageFile['name'], '.')).'-slide';
-            echo $this->createSlideImages($slideImageFile['tmp_name'], $slideImageName);
-            return;
         }
-
         echo $this->view->render('site/course/register', ['title' => 'Novo Curso']);
     }
 
