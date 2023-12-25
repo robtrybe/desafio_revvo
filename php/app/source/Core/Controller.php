@@ -6,8 +6,8 @@ use Source\Core\View;
 use Source\Support\Message;
 
 abstract class Controller {
-    private View $view;
-    private Message $message;
+    protected View $view;
+    protected Message $message;
 
     function __construct()
     {
