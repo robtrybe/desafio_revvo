@@ -43,6 +43,10 @@ class CourseService {
         return true;
     }
 
+    public static function update() {
+        
+    }
+
     private static function createSlideImages(string $imagePath, string $imageName, $outType = 'webp'): string {
         $imageManager = new ImageManager(new Driver());
         $image = $imageManager::imagick()->read($imagePath);

@@ -1,9 +1,10 @@
 <?php $this->layout('site/base', ['title' => $title]); ?>
 
 
-<form action="" action="<?= url('/course'); ?>" method="post" class="form-course">
+<form action="" action="<?= url('/course/'.$course->id); ?>" method="post" class="form-course">
     <div><?= session()->flash() ?? ''; ?></div>
     <?= csrf_input(); ?>
+    <input type="hidden" name="_method" value="PUT" >
     <input type="file" name="slide-image" >
     <input type="file" name="cover-image" >
     <input type="text" name="name" >
