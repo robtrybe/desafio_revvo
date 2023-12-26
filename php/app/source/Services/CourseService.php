@@ -30,8 +30,8 @@ class CourseService {
         $slideImageInfo = self::checkImageSlide();
         $coverImageInfo = self::checkImageCover();
 
-        $slideImageName = substr($slideImageInfo['name'], 0, strrpos( $slideImageInfo['name'], '.')).'-slide';
-        $coverImageName = substr($coverImageInfo['name'], 0, strrpos( $coverImageInfo['name'], '.')).'-cover';
+        $slideImageName = $courseModel->slug;
+        $coverImageName =$courseModel->slug;
         $slideImagePath = self::createSlideImages($slideImageInfo['tmp_name'], $slideImageName);
         $coverImagePath = self::createCoverImages($coverImageInfo['tmp_name'], $coverImageName);
 
@@ -43,18 +43,97 @@ class CourseService {
         return true;
     }
 
-    public static function update() {
-        
+    public static function update($data, $course) {
+        $slideImageInfo = null;
+        $coverImageInfo = null;
+
+        if(!empty($_FILES['slide-image'])) $slideImageInfo = self::checkImageSlide();
+        if(!empty($_FILES['cover-image'])) $coverImageInfo = self::checkImageCover();
+
+        try{
+            $imageData = (object) $course->validate($data);
+
+            if ($slideImageInfo) {
+                self::removeSlideImages($course->name);
+                $course->slide_image = self::createSlideImages($slideImageInfo['tmp_name'], $imageData->name);
+            }
+
+            if ($coverImageInfo) {
+                self::removeCoverImages($course->name);
+                $course->cover_image = self::createCoverImages($coverImageInfo['tmp_name'], $imageData->name);
+            }
+
+            if(!$slideImageInfo) self::renameSlideImages($course->name, $imageData->name);
+            if(!$coverImageInfo) self::renameCoverImages($course->name, $imageData->name);
+
+            $course->name = $imageData->name;
+            $course->slug = $imageData->slug;
+            $course->description = $imageData->description;
+            $course->save();
+        }catch(DefaultException $e) {
+            throw new $e;
+        }catch(Exception $e) {
+            throw new DefaultException('Erro ao tentar atualizar curso', 400);
+        }
     }
 
+
+    /**
+     * Renomeia todas as imagens de slide de um curso com base no novo nome passado como parâmetro
+     * @param string $oldName Nome antigo da imagem
+     * @param string $newName Novo nome para a imagem
+     * @return void Não retorna nada
+     */
+    private static function renameSlideImages(string $oldName, string $newName, $outType = 'webp'): void {
+        for($i = 0; $i < count(CONF_IMG_SLIDE_RESOLUTIONS_WIDTH); $i++) {
+            if(CONF_IMG_SLIDE_DEF_WIDTH === CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i]) {
+                $oldImageName = str_slug($oldName).'-slide.'.$outType;
+                $newImageName = str_slug($newName).'-slide.'.$outType;
+            }else{
+                $oldImageName = str_slug($oldName).'-slide-'.CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i].'.'.$outType;
+                $newImageName = str_slug($newName).'-slide-'.CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i].'.'.$outType;
+            }
+
+            rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
+        }
+    }
+
+    /**
+     * Renomeia todas as imagens de capa de um curso com base no novo nome passado como parâmetro
+     * @param string $oldName Nome antigo da imagem
+     * @param string $newName Novo nome para a imagem
+     * @return void Não retorna nada
+     */
+    private static function renameCoverImages(string $oldName, string $newName, $outType = 'webp'): void {
+        for($i = 0; $i < count(CONF_IMG_COVER_RESOLUTIONS_WIDTH); $i++) {
+            if(CONF_IMG_COVER_DEF_WIDTH === CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i]) {
+                $oldImageName = str_slug($oldName).'-cover.'.$outType;
+                $newImageName = str_slug($newName).'-cover.'.$outType;
+            }else{
+                $oldImageName = str_slug($oldName).'-cover-'.CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i].'.'.$outType;
+                $newImageName = str_slug($newName).'-cover-'.CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i].'.'.$outType;
+            }
+
+            rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
+        }
+    }
+
+    /**
+     * Cria imagens de slide com diferentes resoluções
+     * @param string $imagePath Caminho da imagem recebido atraves da constante $_FILES 
+     * @param string $imagemName Nome para a imagem
+     * @param string $outType Formato da imagem de saida. O padrao é webp
+     * @return string Caminho da nova imagem base a ser armazenada no banco
+     */
     private static function createSlideImages(string $imagePath, string $imageName, $outType = 'webp'): string {
         $imageManager = new ImageManager(new Driver());
         $image = $imageManager::imagick()->read($imagePath);
+        $imageName = str_slug($imageName).'-slide';
 
         for($i =0 ; $i < count(CONF_IMG_SLIDE_RESOLUTIONS_WIDTH); $i++){
             if(CONF_IMG_SLIDE_DEF_WIDTH === CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i]) {
                 $image->resize(CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i], CONF_IMG_SLIDE_RESOLUTIONS_HEIGHT[$i]);
-                $image->toWebp()->save(CONF_IMG_UPLOAD_FOLDER_PATH.$imageName.'.'.'webp');
+                $image->toWebp()->save(CONF_IMG_UPLOAD_FOLDER_PATH.$imageName.'.'.$outType);
             }else{
                 $image->resize(CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i], CONF_IMG_SLIDE_RESOLUTIONS_HEIGHT[$i]);
                 $image->toWebp()->save(CONF_IMG_UPLOAD_FOLDER_PATH.$imageName.'-'.CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i].'.'.$outType);
@@ -64,7 +143,12 @@ class CourseService {
         return CONF_IMG_FOLDER.'/'.$imageName.'.'.$outType;
     }
 
-    private static function checkSlideImageSize(string $imagePath) {
+    /**
+     * Checa se o tamanho da imagem de slide esta de acordo com as configurações pré-definidas
+     * @param string $imagePath Caminho da imagem a ser verificada
+     * @return bool|DefaultException Retorna true caso o tamanho da imagem seja valida ou lança uma Exceção
+     */
+    private static function checkSlideImageSize(string $imagePath):bool|DefaultException {
         $imageInfo = getimagesize($imagePath);
         if($imageInfo[0] != CONF_IMG_SLIDE_DEF_WIDTH || $imageInfo[1] != CONF_IMG_SLIDE_DEF_HEIGHT){
             $message = 'O tamanho da resolução da imagem de slide deve ser de '.CONF_IMG_SLIDE_DEF_WIDTH.' x ';
@@ -75,7 +159,12 @@ class CourseService {
         return true;
     }
 
-    private static function checkCoverImageSize(string $imagePath) {
+    /**
+     * Checa se o tamanho da imagem de capa esta de acordo com as configurações pré-definidas
+     * @param string $imagePath Caminho da imagem a ser verificada
+     * @return bool|DefaultException Retorna true caso o tamanho da imagem seja valida ou lança uma Exceção
+     */
+    private static function checkCoverImageSize(string $imagePath): bool|DefaultException {
         $imageInfo = getimagesize($imagePath);
         if($imageInfo[0] != CONF_IMG_COVER_DEF_WIDTH || $imageInfo[1] != CONF_IMG_COVER_DEF_HEIGHT){
             $message = 'O tamanho da resolução da imagem de capa deve ser de '.CONF_IMG_COVER_DEF_WIDTH.' x ';
@@ -86,14 +175,22 @@ class CourseService {
         return true;
     }
 
+    /**
+     * Cria imagens de capa com diferentes resoluções
+     * @param string $imagePath Caminho da imagem recebido atraves da constante $_FILES 
+     * @param string $imagemName Nome para a imagem
+     * @param string $outType Formato da imagem de saida. O padrao é webp
+     * @return string Caminho da nova imagem base a ser armazenada no banco
+     */
     private static function createCoverImages(string $imagePath, string $imageName, $outType = 'webp'): string {
         $imageManager = new ImageManager(new Driver());
         $image = $imageManager::imagick()->read($imagePath);
+        $imageName = str_slug($imageName). '-cover';
 
         for($i =0 ; $i < count(CONF_IMG_COVER_RESOLUTIONS_WIDTH); $i++){
             if(CONF_IMG_COVER_DEF_WIDTH === CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i]) {
                 $image->resize(CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i], CONF_IMG_COVER_RESOLUTIONS_HEIGHT[$i]);
-                $image->toWebp()->save(CONF_IMG_UPLOAD_FOLDER_PATH.$imageName.'.'.'webp');
+                $image->toWebp()->save(CONF_IMG_UPLOAD_FOLDER_PATH.$imageName.'.'.$outType);
             }else{
                 $image->resize(CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i], CONF_IMG_COVER_RESOLUTIONS_HEIGHT[$i]);
                 $image->toWebp()->save(CONF_IMG_UPLOAD_FOLDER_PATH.$imageName.'-'.CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i].'.'.$outType);
@@ -103,7 +200,11 @@ class CourseService {
         return CONF_IMG_FOLDER.'/'.$imageName.'.'.$outType;
     }
 
-    private static function checkImageSlide(): array|Exception {
+    /**
+     * Verifica se a imagem de slide existe e se é uma imagem válida através do mimetype da mesma
+     * @return array|DefaultException Retorna um array com as informações da imagem ou lança uma exceção
+     */
+    private static function checkImageSlide(): array|DefaultException {
         if($_FILES && !empty($_FILES['slide-image']) && empty($_FILES['slide-image']['tmp_name'])) {
             throw new DefaultException('Imagem de slide inválida', 400);
         }
@@ -124,6 +225,10 @@ class CourseService {
         return $_FILES['slide-image'];
     }
 
+     /**
+     * Verifica se a imagem de capa existe e se é uma imagem válida através do mimetype da mesma
+     * @return array|DefaultException Retorna um array com as informações da imagem ou lança uma exceção
+     */
     private static function checkImageCover() {
         if($_FILES && !empty($_FILES['cover-image']) && empty($_FILES['cover-image']['tmp_name'])) {
             throw new DefaultException('Imagem de capa inválida', 400);
@@ -140,5 +245,51 @@ class CourseService {
 
         if(!$isValidCoverType) throw new DefaultException('Imagem de capa inválida', 400); 
         return $_FILES['cover-image'];
+    }
+
+    /**
+     * Remove todas as imagens de slide de um curso com base no nome passada como parâmetro
+     * @param string $imageName Nome da imagem
+     * @param string $outType Formato de saída (Extenção de saída da imagem) 
+     */
+    private static function removeSlideImages(string $imageName, $outType = 'webp') {
+        for($i = 0; $i < count(CONF_IMG_SLIDE_RESOLUTIONS_WIDTH); $i++) {
+            if(CONF_IMG_SLIDE_DEF_WIDTH === CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i]) {
+                $newName = str_slug($imageName.'-slide.'.$outType);
+                self::remove($newName);
+            }else{
+                $newName = str_slug($imageName.'-slide-'.CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i].'.'.$outType);
+                self::remove($newName);
+            }
+        }
+    }
+
+     /**
+     * Remove todas as imagens de capa de um curso com base no nome passada como parâmetro
+     * @param string $imageName Nome da imagem
+     * @param string $outType Formato de saída (Extenção de saída da imagem) 
+     */
+    private static function removeCoverImages(string $imageName, $outType = 'webp') {
+        for($i = 0; $i < count(CONF_IMG_COVER_RESOLUTIONS_WIDTH); $i++) {
+            if(CONF_IMG_COVER_DEF_WIDTH === CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i]) {
+                $newName = str_slug($imageName.'-cover.'.$outType);
+                self::remove($newName);
+            }else{
+                $newName = str_slug($imageName.'-cover-'.CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i].'.'.$outType);
+                self::remove($newName);
+            }
+        }
+    }
+
+    /**
+     * Remove uma imagem com base no nome passado como parâmetro
+     * @param string $imageName Nome da imagem a ser removida
+     * @return void Não retorna nada 
+     */
+    private static function remove($imageName): void {
+        $filePath = CONF_IMG_UPLOAD_FOLDER_PATH.$imageName;
+        if(file_exists($filePath)){
+            unlink($filePath);
+        }
     }
 }
