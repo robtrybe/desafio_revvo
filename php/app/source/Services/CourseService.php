@@ -63,15 +63,15 @@ class CourseService {
                 $course->cover_image = self::createCoverImages($coverImageInfo['tmp_name'], $imageData->name);
             }
 
-            if(!$slideImageInfo) self::renameSlideImages($course->name, $imageData->name);
-            if(!$coverImageInfo) self::renameCoverImages($course->name, $imageData->name);
+            if(!$slideImageInfo) $course->slide_image = self::renameSlideImages($course->name, $imageData->name);
+            if(!$coverImageInfo) $course->cover_image = self::renameCoverImages($course->name, $imageData->name);
 
             $course->name = $imageData->name;
             $course->slug = $imageData->slug;
             $course->description = $imageData->description;
             $course->save();
         }catch(DefaultException $e) {
-            throw new $e;
+            throw $e;
         }catch(Exception $e) {
             throw new DefaultException('Erro ao tentar atualizar curso', 400);
         }
@@ -82,40 +82,50 @@ class CourseService {
      * Renomeia todas as imagens de slide de um curso com base no novo nome passado como parâmetro
      * @param string $oldName Nome antigo da imagem
      * @param string $newName Novo nome para a imagem
-     * @return void Não retorna nada
+     * @return string Caminho da imagem a ser armazenada no banco
      */
-    private static function renameSlideImages(string $oldName, string $newName, $outType = 'webp'): void {
+    private static function renameSlideImages(string $oldName, string $newName, $outType = 'webp'): string {
         for($i = 0; $i < count(CONF_IMG_SLIDE_RESOLUTIONS_WIDTH); $i++) {
             if(CONF_IMG_SLIDE_DEF_WIDTH === CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i]) {
                 $oldImageName = str_slug($oldName).'-slide.'.$outType;
                 $newImageName = str_slug($newName).'-slide.'.$outType;
+                $relativePathImage = CONF_IMG_FOLDER.'/'.$newImageName;
+                if(file_exists(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName)){
+                    rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
+                }
             }else{
                 $oldImageName = str_slug($oldName).'-slide-'.CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i].'.'.$outType;
                 $newImageName = str_slug($newName).'-slide-'.CONF_IMG_SLIDE_RESOLUTIONS_WIDTH[$i].'.'.$outType;
+                if(file_exists(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName)){
+                    rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
+                }
             }
-
-            rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
         }
-    }
 
+        return $relativePathImage;
+    }
     /**
      * Renomeia todas as imagens de capa de um curso com base no novo nome passado como parâmetro
      * @param string $oldName Nome antigo da imagem
      * @param string $newName Novo nome para a imagem
-     * @return void Não retorna nada
+     * @return string Caminho da imagem a ser armazenada no banco
      */
-    private static function renameCoverImages(string $oldName, string $newName, $outType = 'webp'): void {
+    private static function renameCoverImages(string $oldName, string $newName, $outType = 'webp'): string {
         for($i = 0; $i < count(CONF_IMG_COVER_RESOLUTIONS_WIDTH); $i++) {
             if(CONF_IMG_COVER_DEF_WIDTH === CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i]) {
                 $oldImageName = str_slug($oldName).'-cover.'.$outType;
                 $newImageName = str_slug($newName).'-cover.'.$outType;
+                $relativePathImage = CONF_IMG_FOLDER.'/'.$newImageName;
             }else{
                 $oldImageName = str_slug($oldName).'-cover-'.CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i].'.'.$outType;
                 $newImageName = str_slug($newName).'-cover-'.CONF_IMG_COVER_RESOLUTIONS_WIDTH[$i].'.'.$outType;
             }
 
-            rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
+            if(file_exists(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName)) {
+                rename(CONF_IMG_UPLOAD_FOLDER_PATH.$oldImageName, CONF_IMG_UPLOAD_FOLDER_PATH.$newImageName);
+            }
         }
+        return $relativePathImage;
     }
 
     /**
