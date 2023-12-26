@@ -12,6 +12,7 @@ $router->get('/course', "CourseController:index");
 $router->get('/course/{id}', "CourseController:update");
 $router->post('/course', "CourseController:index");
 $router->put('/course/{id}', "CourseController:update");
+$router->delete('/course/{id}', "CourseController:delete");
 
 $router->get('/oops/{error_code}', function(?array $data) {
     echo $data['error_code'];

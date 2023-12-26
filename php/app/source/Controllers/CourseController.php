@@ -63,5 +63,28 @@ class CourseController extends Controller {
         echo $this->view->render('site/course/update', ['title' => 'Atualizar Curso', 'course' => $course]);
     }
 
+    /**
+     * Função manipuladora da rota /course/{id} para remoção de curso (DELETE)
+     * @array array $data Dados da Requisição
+     * @return void Não retorna valor
+     */
+    public function delete(array $data): void {
+        $id = filter_var($data['id'], FILTER_VALIDATE_INT, array("options" => array("min_range" => 1, "max_range" => 1000)));
+        $courseModel = new courseModel();
+        $course = $courseModel->findById($id);
+        
+        if(!$course) {
+            echo json_encode(['redirect' => url('/course')]);
+            return;
+        }
 
+        try{
+            CourseService::delete($course);
+            $message = $this->message->success('Curso deletado com sucesso!')->render();
+            echo json_encode(['message' => $message]);
+        }catch(DefaultException $e) {
+            echo json_encode(['redirect' => url('/course')]);
+            return;
+        }
+  }
 }

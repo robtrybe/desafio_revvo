@@ -77,6 +77,22 @@ class CourseService {
         }
     }
 
+    /**
+     * Deleta um curso especifico
+     * @param Source\Models\Course Curso a ser removido
+     * @return Retorna VERDADEIRO caso êxito na remoção ou lança uma exceção
+     */
+    public static function delete(Course $course): bool|DefaultException {
+        try{
+            self::removeCoverImages($course->name);
+            self::removeSlideImages($course->name);
+            $course->destroy();
+            return true;
+        }catch(Exception $e) {
+            throw new DefaultException('Oops! Houve um erro ao tentar deletar curso', 403); 
+        }
+    }
+
 
     /**
      * Renomeia todas as imagens de slide de um curso com base no novo nome passado como parâmetro
