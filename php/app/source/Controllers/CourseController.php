@@ -16,11 +16,15 @@ class CourseController extends Controller {
         parent::__construct();
         $this->imageManager = new ImageManager(new Driver());
     }
+
+    public function index() {
+        echo $this->view->render('site/course/register', ['title' => 'Novo Curso']);
+    }
     
-    public function index(?array $data) {
+    public function store(?array $data) {
         if(!empty($data['csrf'])) {
             try{
-                CourseService::create($data);
+                CourseService::store($data);
                 $this->message->success('Curso cadastrado com sucesso!')->flash();
                 redirect('/course');
                 return;
@@ -86,5 +90,17 @@ class CourseController extends Controller {
             echo json_encode(['redirect' => url('/course')]);
             return;
         }
+  }
+
+  public function show(array $data): void {
+    $id = filter_var($data['id'], FILTER_VALIDATE_INT, ["options" => ["min_range" => 1, "max_range" =>1000]]);
+
+    try{
+        $course = CourseService::show($id);
+        echo json_encode(['message' => "Curso {$course->name}"]);
+    }catch(DefaultException $e) {
+        echo json_encode(['redirect' => url('/course')]);
+        return;
+    }
   }
 }

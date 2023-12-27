@@ -133,3 +133,8 @@ function csrf_verify($request): bool {
     }
     return true;
 }
+
+
+function assets(string $path): string {
+    return CONF_URL_ASSETS.($path[0] === '/' ? substr($path, 1): $path);
+}

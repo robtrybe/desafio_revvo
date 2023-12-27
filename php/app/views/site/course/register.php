@@ -1,7 +1,7 @@
 <?php $this->layout('site/base', ['title' => $title]); ?>
 
 
-<form action="" action="<?= url('/course'); ?>" method="post" class="form-course">
+<form action="<?= url('/course/create'); ?>" method="post" class="form-course">
     <div><?= session()->flash() ?? ''; ?></div>
     <?= csrf_input(); ?>
     <input type="file" name="slide-image" >
@@ -10,6 +10,8 @@
     <textarea name="description" cols="30" rows="10"></textarea>
     <button type="submit">Enviar</button>
 </form>
+
+<img src="uploads/images/php-cover.webp" alt="">
 
 <script>
     window.addEventListener('load', function() {
@@ -28,6 +30,7 @@
             }
             
             let url = this.action;
+            console.log(this.action);
 
             let request = await fetch(url, { method: 'POST', body: data
                 }).then(( response => response.json())).then(data => console.log(data))

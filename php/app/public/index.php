@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require('vendor/autoload.php');
+require('../vendor/autoload.php');
 
 use CoffeeCode\Router\Router;
 
@@ -9,8 +9,8 @@ $router = new Router(url());
 $router->namespace("Source\Controllers");
 
 $router->get('/course', "CourseController:index");
-$router->get('/course/{id}', "CourseController:update");
-$router->post('/course', "CourseController:index");
+$router->get('/course/{id}', "CourseController:show");
+$router->post('/course/create', "CourseController:store");
 $router->put('/course/{id}', "CourseController:update");
 $router->delete('/course/{id}', "CourseController:delete");
 

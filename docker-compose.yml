@@ -8,6 +8,8 @@ services:
     volumes: 
       - ./php/app:/var/www/html
       - ./php/apache2.conf:/etc/apache2/apache2.conf
+      - ./php/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ./php/000-default.conf:/etc/apache2/sites-available/000-default.conf
     stdin_open: true
     tty: true
     ports:

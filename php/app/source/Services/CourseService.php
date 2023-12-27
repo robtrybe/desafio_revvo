@@ -10,7 +10,7 @@ use Source\Models\Course;
 
 class CourseService {
 
-    public static function create(array $data) {
+    public static function store(array $data) {
         $courseModel = new Course();
 
         try{
@@ -93,6 +93,16 @@ class CourseService {
         }
     }
 
+    public static function show(int $id): Course|DefaultException {
+        $courseModel = new Course();
+        $course = $courseModel->findById($id);
+
+        if(!$course) {
+            throw new DefaultException('Curso não encontrado ou inexistente', 404);
+        }
+
+        return $course;
+    }
 
     /**
      * Renomeia todas as imagens de slide de um curso com base no novo nome passado como parâmetro
