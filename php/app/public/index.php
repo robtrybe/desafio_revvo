@@ -8,6 +8,7 @@ $router = new Router(url());
 
 $router->namespace("Source\Controllers");
 
+$router->get('/', "SiteController:home");
 $router->get('/course', "CourseController:index");
 $router->get('/course/{id}', "CourseController:show");
 $router->post('/course/create', "CourseController:store");
