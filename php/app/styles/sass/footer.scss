@@ -1,6 +1,7 @@
 
     footer {
         color: $gray;
+        background-color: white;
 
         .sub-title {
             color: $sub-title;
@@ -22,6 +23,10 @@
                 text-align: center;
             }
         }
+
+        [class^="icon"] {
+            font-size: 2rem !important;
+        }
     }
 
     @media(min-width: 960px) {
@@ -29,7 +34,7 @@
             .content-wrapper {
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: space-around;
+                justify-content: space-between;
                 width: 100%;
 
                 & .left-content {

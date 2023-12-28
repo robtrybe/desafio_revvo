@@ -1,0 +1,35 @@
+.search-form {
+    order: 3;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+
+    input[type="text"] {
+        border-radius: 1.25rem 0 0 1.25rem; /* 20px */
+        background-color: $gray-light;
+        font-weight: 600;
+        min-width: 10rem; /* 250px */
+        border-right: 0.0625rem;
+        padding: 0.625rem;
+    }
+
+    button {
+        border-radius: 0 1.25rem 1.25rem 0; /* 20px */
+        border: 0.0625rem solid $gray;
+        padding-left: 0.3125rem;
+        border-left: 0px;
+        padding: 0.625rem;
+    }
+
+
+}
+
+@media(min-width: 640px) {
+    .search-form {
+        order: 2;
+        width: auto;
+        padding-right: 0.625rem;
+    }
+}

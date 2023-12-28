@@ -9,7 +9,7 @@ function buildCss() {
     return gulp.src('./styles/sass/index.scss')
         .pipe(sass())
         .pipe(concat('style.min.css'))
-        .pipe(uglifyCss({ uglyComments: true }))
+        //.pipe(uglifyCss({ uglyComments: true }))
         .pipe(gulp.dest('./assets/css/'))
 }
 
