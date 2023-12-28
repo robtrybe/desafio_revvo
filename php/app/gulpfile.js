@@ -6,10 +6,10 @@ const concat = require('gulp-concat')
 const uglifyCss = require('gulp-uglifycss')
 
 function buildCss() {
-    return gulp.src('./styles/sass/index.scss')
+    return gulp.src(['./assets/css/fontello.css', './styles/sass/site/index.scss'])
         .pipe(sass())
-        .pipe(concat('style.min.css'))
-        //.pipe(uglifyCss({ uglyComments: true }))
+        .pipe(concat('site.min.css'))
+        .pipe(uglifyCss({ uglyComments: false }))
         .pipe(gulp.dest('./assets/css/'))
 }
 

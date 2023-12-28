@@ -1,5 +1,5 @@
 <footer class="footer">
-    <div class="content-wrapper">
+    <div class="content-wrapper content">
         <div class="left-content">
             <article>
                 <div class="container-image">
@@ -22,6 +22,6 @@
                 </div>
             </article>
         </div>
-        <p>Copyright 2017 - All right reserved.</p>
     </div>
+    <p>Copyright 2017 - All right reserved.</p>
 </footer>

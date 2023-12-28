@@ -8,5 +8,6 @@
         for($i= 0; $i < 7; $i++) {
             $this->insert('site/partials/course-card', []);
         }
+        $this->insert('site/partials/course-card-plus', []);
     ?>
 </section>
