@@ -1,0 +1,40 @@
+$gray: #9a9a9aff;
+$gray-light: #efefefff;
+$sub-title: #535353ff;
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+html {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100%;
+    justify-content: space-between;
+    background-color: $gray-light;
+}
+
+/* A*/
+header {
+    width: 100%;
+    flex-grow: 0;
+}
+
+main {
+    flex-grow: 2;
+    width: 100%;
+}
+
+footer {
+    width: 100%;
+    flex-grow: 0;
+}

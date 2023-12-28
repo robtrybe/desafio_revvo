@@ -15,6 +15,8 @@ $router->post('/course/create', "CourseController:store");
 $router->put('/course/{id}', "CourseController:update");
 $router->delete('/course/{id}', "CourseController:delete");
 
+$router->get('/admin', "AdminController:dash");
+
 $router->get('/oops/{error_code}', function(?array $data) {
     echo $data['error_code'];
 });
