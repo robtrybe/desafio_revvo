@@ -138,3 +138,7 @@ function csrf_verify($request): bool {
 function assets(string $path): string {
     return CONF_URL_ASSETS.($path[0] === '/' ? substr($path, 1): $path);
 }
+
+function image(string $imagePath) {
+    return CONF_UPLOADS_FOLDER.$imagePath;
+}

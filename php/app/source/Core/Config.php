@@ -9,7 +9,7 @@ define('CONF_VIEW_EXT', 'php');
 /* URLS */
 define('CONF_TEST_URL', 'http://localhost:8000'); # Desenvolvimento
 define('CONF_BASE_URL', 'http://localhost:8000'); # Produção
-define('CONF_URL_ASSETS', 'http://localhost:8000/public/assets/');
+define('CONF_URL_ASSETS', 'http://localhost:8000/assets/');
 
 /**
  * MESSAGE

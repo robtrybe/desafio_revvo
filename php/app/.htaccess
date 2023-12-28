@@ -14,3 +14,13 @@ Options All -Indexes
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?route=/$1 [L,QSA]
+
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files index.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
