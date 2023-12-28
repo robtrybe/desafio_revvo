@@ -1,15 +1,45 @@
+$gray: #9a9a9aff;
+$gray-light: #efefefff;
+$sub-title: #535353ff;
+$preview-course-button: #01a02aff;
+
 *{
     padding:0;
     margin:0;
     box-sizing: border-box;
 }
 
-$gray: #9a9a9aff;
-$gray-light: #efefefff;
-$sub-title: #535353ff;
+html {
+    position: absolute;
+    height: 100%;
+}
+
+body {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: $gray-light;
+    min-height: 100%;
+    justify-content: space-between;
+}
+
+header {
+    width: 100%;
+    flex-grow: 0;
+}
+
+main {
+    flex-grow: 2;
+    width: 100%;
+}
+
+footer {
+    width: 100%;
+    flex-grow: 0;
+}
+
 
 .content {
-    max-width: 64rem; /* 1024px */
     width: 100%;
     margin: 0 auto;
 }
@@ -28,5 +58,29 @@ input[type="text"]::placeholder {
 
 button {
     padding: 0.3125rem;
+}
+
+.my-course-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.625rem;
+
+    header {
+        width: 100%;
+        border-bottom: 0.0625rem solid $gray;
+        margin-bottom: 0.625rem;
+
+        h1 {
+            color: $sub-title;
+            padding-bottom: 0.3125rem;
+        }
+    }
+}
+
+@media(min-width: 1440px) {
+    .content {
+        max-width: 80%;
+    }
 }
 

@@ -4,8 +4,36 @@
   box-sizing: border-box;
 }
 
+html {
+  position: absolute;
+  height: 100%;
+}
+
+body {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #efefef;
+  min-height: 100%;
+  justify-content: space-between;
+}
+
+header {
+  width: 100%;
+  flex-grow: 0;
+}
+
+main {
+  flex-grow: 2;
+  width: 100%;
+}
+
+footer {
+  width: 100%;
+  flex-grow: 0;
+}
+
 .content {
-  max-width: 64rem; /* 1024px */
   width: 100%;
   margin: 0 auto;
 }
@@ -26,6 +54,27 @@ button {
   padding: 0.3125rem;
 }
 
+.my-course-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.625rem;
+}
+.my-course-section header {
+  width: 100%;
+  border-bottom: 0.0625rem solid #9a9a9a;
+  margin-bottom: 0.625rem;
+}
+.my-course-section header h1 {
+  color: #535353;
+  padding-bottom: 0.3125rem;
+}
+
+@media (min-width: 1440px) {
+  .content {
+    max-width: 80%;
+  }
+}
 footer {
   color: #9a9a9a;
   background-color: white;
@@ -41,7 +90,11 @@ footer .content-wrapper .right-content article {
   margin: 0.625rem 0;
 }
 footer .content-wrapper > p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  width: 100%;
 }
 footer [class^=icon] {
   font-size: 2rem !important;
@@ -53,6 +106,7 @@ footer [class^=icon] {
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
+    height: 100%;
   }
   footer .content-wrapper .left-content {
     max-width: 20rem;
@@ -79,6 +133,7 @@ footer [class^=icon] {
   display: flex;
   justify-content: center;
   margin: 0 auto;
+  padding-bottom: 0.3125rem;
 }
 .search-form input[type=text] {
   border-radius: 1.25rem 0 0 1.25rem; /* 20px */
@@ -108,6 +163,8 @@ footer [class^=icon] {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
+  background-color: white;
+  padding-bottom: 0.3125rem 0;
 }
 
 .menu-container .logo-container {
@@ -163,4 +220,43 @@ footer [class^=icon] {
   .logo-container {
     flex-grow: 1;
   }
+}
+.course-card {
+  max-width: 18.7rem;
+  width: 100%;
+  background-color: white;
+  margin: 0.625rem;
+  padding-bottom: 0.625rem;
+}
+.course-card .course-info {
+  padding: 0.625rem;
+}
+.course-card .course-info .title {
+  padding: 0.625rem;
+  font-size: 1.1rem;
+  color: #535353;
+}
+.course-card .course-info .description {
+  color: #9a9a9a;
+  margin-bottom: 0.625rem;
+}
+.course-card .course-info .link-button {
+  padding: 0.625rem;
+  background-color: #01a02a;
+  display: inline-block;
+  border-radius: 2.5rem;
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  margin: 0.625rem 0;
+}
+.course-card .cover-container {
+  width: 100%;
+  height: 9.0625rem;
+  background-color: aqua;
+}
+.course-card .cover-container img {
+  width: 100%;
 }
