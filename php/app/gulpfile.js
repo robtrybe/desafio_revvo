@@ -26,7 +26,7 @@ gulp.task('buildAdminCss', buildAdminCss);
 
 function toMonitor() {
     gulp.watch('./styles/sass/**/*.scss', function(cb){ 
-        gulp.series('buildCss', 'buildAdminCss')()
+        gulp.series('buildAdminCss')()
         cb()
     })
 }

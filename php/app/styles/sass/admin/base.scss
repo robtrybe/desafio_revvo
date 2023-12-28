@@ -1,6 +1,7 @@
 $gray: #9a9a9aff;
 $gray-light: #efefefff;
 $sub-title: #535353ff;
+$preview-course-button: #01a02aff;
 
 *{
     padding:0;
@@ -23,6 +24,11 @@ body {
     background-color: $gray-light;
 }
 
+.content {
+    width: 100%;
+    margin: 0 auto;
+}
+
 /* A*/
 header {
     width: 100%;
@@ -37,4 +43,17 @@ main {
 footer {
     width: 100%;
     flex-grow: 0;
+}
+
+.courses-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(min-width: 1440px) {
+    .content {
+        max-width: 80%;
+    }
 }
