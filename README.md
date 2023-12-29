@@ -17,7 +17,11 @@ executar o seguinte comando no terminal:
     docker-compose up -d
 ```
 
-Caso não consiga acessar a aplicação será necessario executar o  comando `composer install` dentro do container no diretório `raiz`.
+Logo em seguida execute o comando abaixo
+
+```bash
+    docker container exec -it php-apache-revvo composer install
+```
 
 `CRUD`
 

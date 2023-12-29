@@ -5,6 +5,9 @@ WORKDIR /var/www/html
 COPY ./app .
 
 COPY ./apache2.conf /etc/apache2/apache2.conf
+COPY ./app/composer.json ./
+COPY ./app/composer.lock ./
+COPY ./app/package*.json ./
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install unzip p7zip libzip-dev -y && \
@@ -29,8 +32,7 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -rf composer-setup.php
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-RUN bash -c "source ~/.bashrc && nvm install 20.10.0 && cd /var/www/html && composer install && npm install -g gulp-cli && npm install && gulp"
-
+RUN bash -c "source ~/.bashrc && nvm install 20.10.0 && composer install && npm install -g gulp-cli && npm install && gulp"
 
 RUN service apache2 restart
 EXPOSE 8000
