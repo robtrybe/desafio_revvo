@@ -40,22 +40,24 @@ class CourseController extends Controller {
 
     public function update(array $data) {
         $id = filter_var($data['id'], FILTER_VALIDATE_INT, array("options" => array("min_range" => 1, "max_range" => 1000)));
-  
+       
         if(!$id) { 
             echo json_encode(['redirect' => url('/oops/404')]);
             return;
         } 
-        
+
         $course = (new courseModel())->findById($id);
+       
         if(!$course) {
             echo json_encode(['redirect' => url('/oops/404')]);
             return;
         } 
-      
+
         if(!empty($data['csrf'])) {
             try{
                 CourseService::update($data, $course);
-                echo json_encode(['message' => 'Curso Atualizado com Sucesso']);
+                $message = $this->message->success('Curso Atualizado com Sucesso')->render();
+                echo json_encode(['message' => $message]);
                 return;
             }catch(DefaultException $e) {
                 $message = $this->message->setType($e->getType())->setMessage($e->getMessage())->render();
@@ -65,7 +67,7 @@ class CourseController extends Controller {
             
         }
     
-        echo $this->view->render('site/course/update', ['title' => 'Atualizar Curso', 'course' => $course]);
+        echo $this->view->render('admin/course/update', ['title' => 'Atualizar Curso', 'course' => $course]);
     }
 
     /**
