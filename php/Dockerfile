@@ -29,8 +29,8 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -rf composer-setup.php
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-RUN composer install
-RUN bash -c "source ~/.bashrc && nvm install 20.10.0 && npm install -g gulp-cli && npm install && gulp"
+RUN bash -c "source ~/.bashrc && nvm install 20.10.0 && composer install"
+
 
 RUN service apache2 restart
 EXPOSE 8000
