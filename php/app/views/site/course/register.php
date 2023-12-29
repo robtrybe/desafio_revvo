@@ -1,7 +1,7 @@
 <?php $this->layout('site/base', ['title' => $title]); ?>
 
 
-<form action="<?= url('/course/create'); ?>" method="post" class="form-course">
+<form action="<?= url('/course/create'); ?>" method="post" class="form-post">
     <div><?= session()->flash() ?? ''; ?></div>
     <?= csrf_input(); ?>
     <input type="file" name="slide-image" >
@@ -15,7 +15,7 @@
 
 <script>
     window.addEventListener('load', function() {
-        let form = document.querySelector('.form-course');
+        let form = document.querySelector('.form-post');
         let files = document.querySelectorAll('[type="file"]');
  
         if(form){

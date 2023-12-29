@@ -26,15 +26,16 @@ class CourseController extends Controller {
             try{
                 CourseService::store($data);
                 $this->message->success('Curso cadastrado com sucesso!')->flash();
-                redirect('/course');
+                echo json_encode(['redirect' => url('/admin')]);
                 return;
             }catch(DefaultException $e) {
                 $message = $this->message->setType($e->getType())->setMessage($e->getMessage())->render();
                 echo json_encode(['message' => $message]);
                 return;
             }
+
         }
-        echo $this->view->render('site/course/register', ['title' => 'Novo Curso']);
+        echo $this->view->render('admin/course/create', ['title' => 'Novo Curso']);
     }
 
     public function update(array $data) {
