@@ -10,7 +10,5 @@
     <input type="text" name="name" id="name" placeholder="Titulo">
     <label for="description">DESCRIÇÃO</label>
     <textarea name="description" id="description" cols="30" rows="10" placeholder="Descrição do curso"></textarea>
-    <button type="button" class="btn-remove">Excluir</button>
-    <button type="">Editar</button>
     <button type="submit" class="btn-register">Cadastrar</button>
 </form>

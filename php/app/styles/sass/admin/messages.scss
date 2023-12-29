@@ -1,0 +1,31 @@
+.message {
+    padding: 0.625rem;
+    border-radius: 0.3125rem;
+    border: 0.0625rem solid $gray;
+    text-align: center;
+    font-weight: 600;
+}
+
+.message.error {
+    background-color: #bb1d1d;
+    border-color:#bb1d1d;
+    color:white;
+}
+
+.message.warning {
+    background-color: #cfbf08;
+    border-color:#cfbf08;
+    color:white;
+}
+
+.message.info{
+    background-color: #088ac6;
+    border-color:#088ac6;
+    color:white;
+}
+
+.message.success {
+    background-color: #0bca3e;
+    border-color:#0bca3e;
+    color:white;
+}

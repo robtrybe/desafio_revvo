@@ -7,8 +7,8 @@
         </label>
         <input type="checkbox" name="menu-check" id="menu-check" class="menu-check">
         <ul class="menu">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Teste</a></li>
+            <li><a href="<?= url('/admin'); ?>">Dashboard</a></li>
+            <li><a href="<?= url('/admin/course/create'); ?>">Novo Curso</a></li>
         </ul>
     </div>
 </header>

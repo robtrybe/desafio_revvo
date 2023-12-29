@@ -38,10 +38,10 @@ gulp.task('buildAdminCss', buildAdminCss);
 gulp.task('buildJs', buildJs)
 
 function toMonitor() {
-    gulp.watch(['./styles/sass/**/*.scss','./js/**/*.js'], function(cb){ 
-        gulp.series('buildAdminCss', 'buildJs')()
+    gulp.watch(['./styles/sass/**/*.scss'], function(cb){ 
+        gulp.series('buildCss','buildAdminCss', 'buildJs')()
         cb()
     })
 }
 
-module.exports.default = gulp.series(buildCss, buildAdminCss, buildJs, toMonitor)
+module.exports.default = gulp.series(buildCss, buildAdminCss, buildJs)

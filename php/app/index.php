@@ -9,15 +9,14 @@ $router = new Router(url());
 $router->namespace("Source\Controllers");
 
 $router->get('/', "SiteController:home");
-$router->get('/course', "CourseController:index");
 $router->get('/course/{id}', "CourseController:show");
-$router->delete('/course/{id}', "CourseController:delete");
 
 $router->get('/admin', "AdminController:dash");
 $router->get('/admin/course/create', "CourseController:store");
 $router->post('/admin/course/create', "CourseController:store");
 $router->get('/admin/course/{id}/edit', "CourseController:update");
 $router->put('/admin/course/{id}/edit', "CourseController:update");
+$router->delete('/admin/course/{id}', "CourseController:delete");
 
 $router->get('/oops/{error_code}', function(?array $data) {
     echo $data['error_code'];

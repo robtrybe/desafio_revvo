@@ -1,0 +1,25 @@
+.course-container {
+    max-width: 64rem;
+    width:100%;
+    margin: 0.625rem;
+
+    .image-container {
+        width: 100%;
+    }
+
+    .course-title {
+        text-align: center;
+        color: $sub-title;
+        background-color: white;
+        padding: 0.625rem;
+        margin: 0.625rem 0;
+    }
+
+    .course-description {
+        background-color: white;
+        padding: 0.625rem;
+        color: $sub-title;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+}

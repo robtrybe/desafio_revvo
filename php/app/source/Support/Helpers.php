@@ -139,6 +139,6 @@ function assets(string $path): string {
     return CONF_URL_ASSETS.($path[0] === '/' ? substr($path, 1): $path);
 }
 
-function image(string $imagePath) {
-    return CONF_UPLOADS_FOLDER.$imagePath;
+function image(string $imageName) {
+    return url('/uploads/images/').$imageName;
 }

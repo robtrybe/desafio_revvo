@@ -1,9 +1,10 @@
 <?php $this->layout('admin/base', ['title' => $title]); ?>
 
 <section class="courses-section content">
+    <div style="width: 100%;"><?= session()->flash(); ?></div>
     <?php
-        for($i = 0; $i < 8; $i++) {
-            $this->insert('admin/partials/course-card', []);
+        foreach($courses as $course) {
+            $this->insert('admin/partials/course-card', ['course' => $course]);
         }
     ?>
 </section>

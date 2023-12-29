@@ -18,7 +18,7 @@ class Course extends DataLayer{
             throw new DefaultException('Todos os campos devem ser informados', 400);
         }
 
-        if(!v::regex('/^[a-zà-ú\s]{3,100}$/i')->validate($data['name'])) {
+        if(!v::regex('/^[a-zà-ú\s]{1,100}$/i')->validate($data['name'])) {
             throw new DefaultException('O nome informado é inválido', 400);
         }
 

@@ -26,5 +26,5 @@ async function sendPostForm(event) {
            if(data.redirect){
                 location.href = data.redirect
            }
-        })
+    })
 }

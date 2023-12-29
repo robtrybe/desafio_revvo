@@ -56,8 +56,8 @@ class CourseController extends Controller {
         if(!empty($data['csrf'])) {
             try{
                 CourseService::update($data, $course);
-                $message = $this->message->success('Curso Atualizado com Sucesso')->render();
-                echo json_encode(['message' => $message]);
+                $this->message->success('Curso Atualizado com Sucesso')->flash();
+                echo json_encode(['redirect' => url('/admin')]);
                 return;
             }catch(DefaultException $e) {
                 $message = $this->message->setType($e->getType())->setMessage($e->getMessage())->render();
@@ -87,10 +87,10 @@ class CourseController extends Controller {
 
         try{
             CourseService::delete($course);
-            $message = $this->message->success('Curso deletado com sucesso!')->render();
-            echo json_encode(['message' => $message]);
+            $this->message->success('Curso deletado com sucesso!')->flash();
+            echo json_encode(['redirect' => url('/admin')]);
         }catch(DefaultException $e) {
-            echo json_encode(['redirect' => url('/course')]);
+            echo json_encode(['redirect' => url('/admin')]);
             return;
         }
   }
@@ -100,10 +100,11 @@ class CourseController extends Controller {
 
     try{
         $course = CourseService::show($id);
-        echo json_encode(['message' => "Curso {$course->name}"]);
     }catch(DefaultException $e) {
         echo json_encode(['redirect' => url('/course')]);
         return;
     }
+
+    echo $this->view->render('site/course', ['title' => "Curso - {$course->name}", 'course' => $course]);
   }
 }

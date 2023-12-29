@@ -12,6 +12,7 @@
             padding: 0.625rem;
             font-size: 1.1rem;
             color: $sub-title;
+            text-align: center;
         }
 
         .description {
@@ -19,7 +20,7 @@
             margin-bottom: 0.625rem;
         }
 
-        .link-button {
+        .link-button, .edit-link-button {
             padding: 0.625rem;
             background-color: $preview-course-button;
             display: inline-block;
@@ -30,6 +31,11 @@
             color:white;
             font-weight: bold;
             margin: 0.625rem 0;
+        }
+
+        .edit-link-button {
+            background-color: #1681b7;
+            border: 0.0625rem solid #1681b7;
         }
     }
 

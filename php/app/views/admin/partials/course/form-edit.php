@@ -12,7 +12,11 @@
     <input type="text" name="name" id="name" placeholder="Titulo" value="<?= $course->name ?? ''; ?>">
     <label for="description">DESCRIÇÃO</label>
     <textarea name="description" id="description" cols="30" rows="10" placeholder="Descrição do curso"><?= $course->description ?? ''; ?></textarea>
-    <button type="button" class="btn-remove">Excluir</button>
-    <button type="">Editar</button>
-    <button type="submit" class="btn-register">Cadastrar</button>
+    <button type="submit" class="btn-edit">Editar</button>
+    <button 
+            type="button"
+            class="btn-remove ajax-post"
+            data-url="<?= url('/admin/course/'.$course->id); ?>"
+            data-_method="DELETE"
+    >Excluir</button>
 </form>
