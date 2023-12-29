@@ -17,6 +17,8 @@ executar o seguinte comando no terminal:
     docker-compose up -d
 ```
 
+Caso não consiga acessar a aplicação será necessario executar o  comando `composer install` dentro do container no diretório `raiz`.
+
 `CRUD`
 
 `OBS:` O `CRUD` é feito atrvés da técnica de `Form Spoofing` utilizando o método `POST` para 
