@@ -1,5 +1,5 @@
-<header>
-    <div class="menu-container">
+<header class="main-header">
+    <div class="menu-container content">
         <div class="logo-container">
             <img src="<?= assets('/images/leo.png'); ?>" alt="leo">
         </div>
