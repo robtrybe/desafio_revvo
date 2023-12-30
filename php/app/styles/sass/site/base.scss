@@ -20,26 +20,24 @@ body {
     flex-wrap: wrap;
     background-color: $gray-light;
     min-height: 100%;
-    justify-content: space-between;
-    width: 100%;
 }
 
 header {
     width: 100%;
-    flex-grow: 0;
+    flex-grow: 1;
 }
 
 main {
     display: flex;
     flex-wrap: wrap;
-    flex-grow: 0;
+    flex-grow: 2;
     justify-content: center;
     width: 100%;
 }
 
 footer {
     width: 100%;
-    flex-grow: 0;
+    flex-grow: 1;
 }
 
 

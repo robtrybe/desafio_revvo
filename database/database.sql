@@ -33,3 +33,6 @@ CREATE TABLE IF NOT EXISTS users(
 insert into users(first_name, last_name, email, password) 
     values('Carlos', 'Silva', 'carlos@gmail.com', '$2y$10$4DXoe.rx1O74QSGh2kDYfOeKk4n3XraNXyvhx7VMsLw2S/5KckGI6');
 
+
+
+

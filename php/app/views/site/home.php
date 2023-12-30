@@ -1,15 +1,15 @@
 <?php $this->layout('site/base', ['title'=> $title]); ?>
 
-<?php $this->insert('site/partials/slideshow', ['courseSlides' => $courseSlides]); ?>
+<?= $this->insert('site/partials/slideshow', ['courseSlides' => $courseSlides]); ?>
 
-<section class="my-course-section content">
+<section class="my-course-section">
     <header>
         <h1>MEUS CURSOS</h1>
     </header>
     <?php
-        for($i= 0; $i < 7; $i++) {
+        for($i = 0; $i < 7; $i++) {
             $this->insert('site/partials/course-card', []);
         }
-        $this->insert('site/partials/course-card-plus', []);
     ?>
+    <?= $this->insert('site/partials/course-card-plus', []); ?>
 </section>

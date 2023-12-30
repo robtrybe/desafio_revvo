@@ -1,8 +1,8 @@
 <article class="course-card-plus">
     <div>
-        <a href="#" class="plus-link">
+        <a href="<?= url('/admin'); ?>" class="plus-link">
             <span class="icon-folder-add"></span>
-            <span class="text">Adicionar <br>Curso</span>
         </a>
+        <a href="<?= url('/admin'); ?>" class="plus-link-2">Adicionar Curso</a>
     </div>
 </article>
