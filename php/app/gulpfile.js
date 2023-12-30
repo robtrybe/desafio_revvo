@@ -28,7 +28,7 @@ function buildJs() {
         .pipe(babel({
             comments: false,
         }))
-        .pipe(uglify())
+        //.pipe(uglify())
         .pipe(concat('scripts.min.js'))
         .pipe(gulp.dest('./assets/js/'))
 }
@@ -44,4 +44,4 @@ function toMonitor() {
     })
 }
 
-module.exports.default = gulp.series(buildCss, buildAdminCss, buildJs)
+module.exports.default = gulp.series(buildCss, buildAdminCss, buildJs, toMonitor)

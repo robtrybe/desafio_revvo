@@ -1,5 +1,7 @@
 <?php $this->layout('site/base', ['title'=> $title]); ?>
 
+<?php $this->insert('site/partials/slideshow', ['courseSlides' => $courseSlides]); ?>
+
 <section class="my-course-section content">
     <header>
         <h1>MEUS CURSOS</h1>

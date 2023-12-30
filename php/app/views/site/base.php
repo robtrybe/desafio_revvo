@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="<?= assets('/images/favicon.ico'); ?>" />
     <link rel="stylesheet" href="<?= assets('/css/site.min.css'); ?>">
+    <script src="<?= assets('/js/scripts.min.js'); ?>"></script>
     <title><?= $this->e("{$title}"); ?></title>
 </head>
 <body>
