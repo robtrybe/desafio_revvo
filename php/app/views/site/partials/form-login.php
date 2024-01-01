@@ -5,6 +5,6 @@
     <label for="email">EMAIL</label>
     <input type="text" name="email" id="email" placeholder="Email" >
     <label for="password">SENHA</label>
-    <input type="password" name="password" id="password" placeholder="Senha">
+    <input type="password" name="password" id="password" placeholder="Senha" minlength=6 maxlength="12">
     <button type="submit" class="btn-register">Entrar</button>
 </form>

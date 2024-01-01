@@ -11,6 +11,7 @@
 <body>
     <?= $this->insert('site/partials/header', []); ?>
     <main>
+        <div style="width:100%;"><?= session()->flash(); ?></div>
         <?= $this->section('content'); ?>
     </main>
     <?= $this->insert('site/partials/footer',[]); ?>

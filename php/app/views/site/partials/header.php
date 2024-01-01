@@ -11,9 +11,20 @@
                 <span class="profile"></span>
                 <span class="welcome_user">
                     <span class="welcome">Seja bem-vindo</span>
-                    <span class="user">John Doe</span>
+                    <?php if(!session()->user) { ?>
+                        <a style="text-decoration: none;" href="/login" class="user">Faça login</a>
+                    <?php }else { ?> 
+                        <span class="user"><?= session()->user->first_name. ' '. session()->user->last_name; ?></span>
+                    <?php } ?>
                 </span>
-                <span class="drop-down icon-down" title="Exibir Menu"></span>
+                <?php if(session()->user): ?>
+                    <span class="drop-down icon-down" title="Exibir Menu"></span>
+                <?php endif; ?>
+                <?php if(session()->user): ?>
+                    <ul class="sub-menu">
+                        <li><a href="/logout">Sair</a></li>
+                    </ul>
+                <? endif; ?>
             </li>
         </ul>
     </div>

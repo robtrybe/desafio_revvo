@@ -1,17 +1,17 @@
 .menu-container {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
     background-color: white;
     padding-bottom: 0.3125rem 0;
-}
 
-.menu-container {
     .logo-container {
         order: 1;
     }
 }
+
 
 .menu {
     order: 2;
@@ -51,6 +51,33 @@
     .drop-down {
         color: $sub-title;
         cursor: pointer;
+    }
+
+    .active {
+        display: block !important;
+    }
+
+    .menu .icon-dwon {
+        pointer-events: none;
+    }
+
+    .sub-menu {
+        user-select: none;
+        display: none;
+        position: absolute;
+        top: 110%;
+        right: 0.625rem;
+        font-size: 1.3rem;
+        z-index: 999;
+        background-color: white;
+        border-radius: 0.3125rem;
+
+        & a {
+            color: $sub-title;
+            text-decoration: none;
+            display: inline-block;
+            padding: 1.25rem;
+        }
     }
 }
 

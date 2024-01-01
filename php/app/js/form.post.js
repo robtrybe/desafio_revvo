@@ -23,7 +23,7 @@ async function sendPostForm(event) {
                 document.querySelector('.ajax-response').innerHTML = data.message
            }
 
-           if(data.redirect){
+           if(data.redirect) {
                 location.href = data.redirect
            }
     })

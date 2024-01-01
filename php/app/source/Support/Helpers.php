@@ -106,12 +106,12 @@ function redirect(string $url): void {
     header("HTTP/1.1 302 Redirect");
     if(filter_var($url, FILTER_VALIDATE_URL)){
         header("Location: {$url}");
-        exit;
+        return;
     }
 
     $location = url($url);
     header("Location: {$location}");
-    exit;
+    return;
 }
 
 function message(): \Source\Support\Message {
