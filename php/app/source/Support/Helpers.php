@@ -135,10 +135,19 @@ function csrf_verify($request): bool {
 }
 
 
+################
+#### assets ####
+################
+
 function assets(string $path): string {
     return CONF_URL_ASSETS.($path[0] === '/' ? substr($path, 1): $path);
 }
 
 function image(string $imageName) {
     return url('/uploads/images/').$imageName;
+}
+
+
+function user(): \Source\Models\User |null {
+    return session()->user ?? null;
 }
