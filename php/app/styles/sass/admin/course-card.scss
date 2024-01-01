@@ -1,4 +1,6 @@
 .course-card {
+    display:flex;
+    flex-wrap: wrap;
     max-width: 18.7rem;
     width: 100%;
     background-color: white;
