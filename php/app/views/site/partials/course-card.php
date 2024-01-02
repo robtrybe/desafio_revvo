@@ -1,7 +1,7 @@
 <article class="course-card">
-    <div class="cover-container">
-        <img src="<?= image($course->slug).'-cover.webp'; ?>" alt="Course">
-    </div>
+    <picture class="cover-container">
+        <img src="<?= image($course->slug).'-cover.webp'; ?>" alt="Course"  style="with:100%;">
+    </picture>
     <div class="course-info">
         <h2 class="title"><?= mb_strtoupper($course->name); ?></h2>
         <p class="description"><?= str_limit_chars($course->description, 56);?></p>
