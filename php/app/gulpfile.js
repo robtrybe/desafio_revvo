@@ -28,7 +28,7 @@ function buildJs() {
         .pipe(babel({
             comments: false,
         }))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(concat('scripts.min.js'))
         .pipe(gulp.dest('./assets/js/'))
 }
