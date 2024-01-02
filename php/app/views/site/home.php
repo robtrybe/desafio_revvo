@@ -4,13 +4,18 @@
 
 <?php $this->insert('site/partials/slideshow', ['courseSlides' => $courseSlides]); ?>
 
+
 <section class="my-course-section content">
     <header>
-        <h1>MEUS CURSOS</h1>
+        <?php if(session()->user): ?>
+            <h1>MEUS CURSOS</h1>
+        <?php else: ?>
+            <h1>CONFIRA NOSSOS CURSOS</h1>
+        <?php endif; ?>
     </header>
     <?php
-        for($i = 0; $i < 7; $i++) {
-            $this->insert('site/partials/course-card', []);
+        foreach($courses as $course) {
+            $this->insert('site/partials/course-card', ['course' => $course]);
         }
     ?>
     <?= $this->insert('site/partials/course-card-plus', []); ?>

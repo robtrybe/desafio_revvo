@@ -12,7 +12,7 @@ $router->get('/', "SiteController:home");
 $router->get('/login', "LoginController:login");
 $router->post('/login', "LoginController:login");
 $router->get('/logout', "LoginController:logout");
-$router->get('/course/{id}', "CourseController:show");
+$router->get('/course/{slug}/{id}', "CourseController:show");
 
 $router->get('/admin', "AdminController:dash");
 $router->get('/admin/course/create', "CourseController:store");

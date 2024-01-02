@@ -6,7 +6,7 @@
             <p>
                 <?= str_limit_chars($slide->description, 56); ?>
             </p>
-            <a href="<?= url("/course/{$slide->id}"); ?>">VER CURSO</a>
+            <a href="<?= url("/course/{$slide->slug}/{$slide->id}"); ?>">VER CURSO</a>
           </div>
           <picture>
             <source media="(min-width:1440px)" srcset="<?= image($slide->slug.'-slide.webp'); ?>" >

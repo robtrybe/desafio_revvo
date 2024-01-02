@@ -44,11 +44,9 @@ A parte `Web` da aplicação possui duas rotas
 
 A primeira `/` para renderização da `Página Home`
 
-A segunda `/course/{id}` para visualização de um `Curso específico`.
+A segunda `/course/{slug}/{id}` para visualização de um `Curso específico`.
 
-`OBS:` A parte `Web` da aplicação encontra-se estática no momento, porém responsiva. O preenchimento dos
-cursos foram feito utilizando `estrutura de repetição`, porém a página se adapta a dispositivos moveis, ou 
-seja , utilizando `Mobile First`. Infelizmente devido ao tempo não foi possível finalizar a alimentação por completo.
+`OBS:` A parte `Web` da aplicação é totalmente responsiva.Use o usuário `carlos@gmail.com` e `123456` como senha para efetuar login e ver os cursos que este usuário possui.
 
 
 

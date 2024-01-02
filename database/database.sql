@@ -33,6 +33,24 @@ CREATE TABLE IF NOT EXISTS users(
 insert into users(first_name, last_name, email, password) 
     values('Carlos', 'Silva', 'carlos@gmail.com', '$2y$10$4DXoe.rx1O74QSGh2kDYfOeKk4n3XraNXyvhx7VMsLw2S/5KckGI6');
 
+CREATE TABLE IF NOT EXISTS users_courses(
+	id int unsigned not null auto_increment,
+    user_id int unsigned not null,
+    course_id int unsigned not null,
+    primary key(id),
+    constraint fk_user_id foreign key(user_id) references users(id),
+    constraint fk_course_id foreign key(course_id) references courses(id)
+) Engine=InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+insert into users_courses(user_id,course_id) values(1,1);
+insert into users_courses(user_id,course_id) values(1,2);
+insert into users_courses(user_id,course_id) values(1,3);
+insert into users_courses(user_id,course_id) values(1,4);
+insert into users_courses(user_id,course_id) values(1,5);
+insert into users_courses(user_id,course_id) values(1,6);
+insert into users_courses(user_id,course_id) values(1,7);
+
+
 
 
 

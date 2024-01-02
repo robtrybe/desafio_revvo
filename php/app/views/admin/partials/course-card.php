@@ -6,7 +6,7 @@
         <h2 class="title"><?= str_title($course->name); ?></h2>
         <p class="description"><?= str_limit_chars($course->description, 56); ?></p>
         <a 
-            href="<?= url('/course/'.$course->id); ?>"
+            href="<?= url("/course/{$course->slug}/{$course->id}"); ?>"
             class="link-button"
             target="_blank" 
         >VER CURSO</a>

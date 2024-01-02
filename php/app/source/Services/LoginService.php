@@ -31,6 +31,7 @@ class LoginService {
         }
 
         $userSession = new stdClass();
+        $userSession->id = $user->id;
         $userSession->first_name = $user->first_name;
         $userSession->last_name = $user->last_name;
         $userSession->email = $user->email;

@@ -60,3 +60,11 @@ define('CONF_URL_ASSETS', 'http://localhost:8000/assets/');
     ]
   ]);
 
+  define('CONF_MYSQL_HOST', $_ENV['MYSQL_HOST']);
+  define('CONF_MYSQL_DB_NAME', $_ENV['MYSQL_DBNAME']);
+  define('CONF_MYSQL_DRIVER', $_ENV['MYSQL_DRIVER']);
+  define('CONF_MYSQL_USER', $_ENV['MYSQL_USER']);
+  define('CONF_MYSQL_PASSWORD', $_ENV['MYSQL_PASSWORD']);
+  define('CONF_MYSQL_PORT', $_ENV['MYSQL_PORT']);
+
+
