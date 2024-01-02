@@ -44,4 +44,4 @@ function toMonitor() {
     })
 }
 
-module.exports.default = gulp.series(buildCss, buildAdminCss, buildJs, toMonitor)
+module.exports.default = gulp.series(buildCss, buildAdminCss, buildJs)
